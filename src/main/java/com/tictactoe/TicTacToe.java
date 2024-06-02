@@ -40,36 +40,65 @@ public class TicTacToe {
         startGame(game);
     }
 
+    /*******************
+     * Public Functions
+     *******************/
+
     public char getCurrentPlayer(TicTacToe game) {
         return game.currentPlayer;
     }
+
 
     public char[][] getBoard(TicTacToe game) {
         return game.board;
     }
 
-    public String Status(TicTacToe game, int i, int j, Button button) {
 
+    public String Status(TicTacToe game, int i, int j, Button button) {
+        
+        // Check if valid move
         if (isValidMove(i,j,game.board) == false) {
             return "Invalid Move!";
         }
-
+        // If Valid, set the move and change button's text 
         setMove(game.currentPlayer, i, j, game.board);
         button.setText(Character.toString(game.getCurrentPlayer(game)));
 
+        // Now check if new move caused a win or a full board
         if (winningMove(game.currentPlayer, game.board)) {
             return "Winner! - " + game.currentPlayer;
         }
-
         else if (boardFull(board)) {
             return "Tie Game!";
         }
-        
 
+        // Swap players and return 
         return swapPlayers(game);
-
     }
 
+
+    // Make call to re-initialize board
+    public static void reset(TicTacToe game){
+        game.initialize(game.board);
+    }
+
+
+    // Check if move must be within bounds and empty
+    public boolean isValidMove(int i, int j, char[][] board){
+        if (0 <= i && i <= 2 && 0 <= j && j <= 2 && board[i][j] == '-') {
+            return true;
+        }
+        else { return false;}
+    }
+
+
+    // Set a new move
+    public void setMove(char player, int i, int j, char[][] board){
+        board[i][j] = player;
+    }
+
+
+    // Swap players 
     private String swapPlayers(TicTacToe game){
         if (game.currentPlayer == 'X') { 
             game.currentPlayer = 'O'; 
@@ -80,6 +109,8 @@ public class TicTacToe {
         return "Current Player: " + game.currentPlayer;
     }    
 
+
+    // Start game for terminal based run
     private static void startGame(TicTacToe game) {
         Scanner read = new Scanner(System.in);
 
@@ -129,8 +160,11 @@ public class TicTacToe {
             }
         }
         read.close();
-
     }
+
+    /************************
+     * Private functions 
+     ***********************/
 
     private static void initialize(char[][] board) {
         for (int i = 0; i < 3; i++) {
@@ -139,6 +173,8 @@ public class TicTacToe {
             }
         }
     }
+
+
     private static void printBoard(char[][] board) {
         for (int i = 0; i < 3; i++) {
             System.out.println("-------------------");
@@ -146,18 +182,8 @@ public class TicTacToe {
         }
         System.out.println("--------------------");
     }
-    public boolean isValidMove(int i, int j, char[][] board){
-        // Move must be within bounds and empty
-        if (0 <= i && i <= 2 && 0 <= j && j <= 2 && board[i][j] == '-') {
-            return true;
-        }
-        else { return false;}
-    }
 
-    public void setMove(char player, int i, int j, char[][] board){
-        board[i][j] = player;
-    }
-
+    
     private boolean winningMove(char currentPlayer, char[][] board){
         // Check for 3 in a row, 3 in a column, or 3 in a diagional
         for (int i = 0; i < 3; i++) {
