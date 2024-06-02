@@ -27,16 +27,14 @@ public class gui extends Application {
         VBox vbox = new VBox();
         Button restart_button = new Button("Click to Restart");
         restart_button.setOnAction(event -> {
-            
+            reset_tictactoe(game, root);
+            game.reset(game);
+            status.setText("Current Player: " + Character.toString(game.getCurrentPlayer(game)));
         });
 
         status.setStyle("-fx-font-size: 48px;");
         vbox.setSpacing(10);
     
-        vbox.getChildren().add(status);
-        vbox.getChildren().add(root);
-        vbox.getChildren().add(restart_button);
-
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 Button button = new Button();
@@ -56,9 +54,21 @@ public class gui extends Application {
                 });
             }
         }
+
+        vbox.getChildren().add(status);
+        vbox.getChildren().add(root);
+        vbox.getChildren().add(restart_button);
+
         Scene scene = new Scene(vbox, 600, 750);
         Home.setScene(scene);
         Home.show();
+
+    }
+    private void reset_tictactoe(TicTacToe game, GridPane grid) {
+        for(int i = 0; i < grid.getChildren().size(); i++){
+            Button newButton = (Button) grid.getChildren().get(i);
+            newButton.setText(" ");
+        }
 
     }
         
