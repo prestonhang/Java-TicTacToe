@@ -37,6 +37,8 @@ public class gui extends Application {
     
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
+
+                // Set 3x3 grid of clickable buttons
                 Button button = new Button();
                 button.setPrefHeight(buttonHeight);
                 button.setPrefWidth(buttonWidth);
@@ -49,6 +51,7 @@ public class gui extends Application {
                 int move_row = i;
                 int move_column = j;
 
+                // On click, update game
                 button.setOnAction(event -> {
                     status.setText(game.Status(game, move_row, move_column, button));
                 });
@@ -64,6 +67,8 @@ public class gui extends Application {
         Home.show();
 
     }
+
+    // On restart, clear all buttons and their text
     private void reset_tictactoe(TicTacToe game, GridPane grid) {
         for(int i = 0; i < grid.getChildren().size(); i++){
             Button newButton = (Button) grid.getChildren().get(i);
